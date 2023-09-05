@@ -7,13 +7,16 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminLoginController;
+use App\Http\Controllers\sharkController;
 
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\RoleMiddleware;
+use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
+Route::get('/test', [IndexController::class, 'test'])->name('test');
 
 Route::get('home', [HomeController::class, 'index'])->name('home');
 Route::get('/all-user', [HomeController::class, 'all_user'])->name('all-user');
@@ -52,6 +55,18 @@ Route::middleware(['admin'])->prefix('admin')->namespace('admin')->group(functio
     
     /****************  Adin Logout  *********************/    
     Route::get('admin/logout', [AdminController::class, 'admin_logout'])->name('admin.logout');
+
+
+    /*FRONT END EDITOR*/
+    Route::post('/statusAjaxUpdateCustom', [sharkController::class,'statusAjaxUpdateCustom']);
+    Route::post('/statusAjaxUpdate', [sharkController::class,'statusAjaxUpdate']);
+    Route::post('/updateFlagOnKey', [sharkController::class,'updateFlagOnKey']);
+    /*FRONT END EDITOR End*/
+
+   /*FRONT END IMAGE Upload*/
+    Route::post('/imageUpload', [sharkController::class, 'imageUpload']);
+    /*FRONT END IMAGE Upload END*/
+
 });
 
 /********************  Create Admin  ********************/ 
