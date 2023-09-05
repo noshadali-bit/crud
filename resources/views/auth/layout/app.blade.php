@@ -1,25 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-
+<!doctype html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
-
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>{{ isset($title) ? $title : '' }}</title>
     <link rel="icon" type="image/jpg" href="{{ asset(isset($logo) ? $logo->img_path : '') }}">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    @include('layouts.links')
+    @include('auth.layout.links')
     @yield('css')
+    <!-- Scripts -->
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
-
 <body>
-
     <input type="hidden" id="web_base_url" value="{{ url('/') }}" />
-    @include('layouts.header')
-    @yield('content')
-    @include('layouts.footer')
-    @include('layouts.scripts')
+    <div id="auth-app">
+        @include('auth.layout.header')
+        @include('auth.layout.sidebar')
+        @yield('content')
+        @include('auth.layout.footer')
+    </div>
+    @include('auth.layout.scripts')
     @yield('js')
     <script type="text/javascript">
         (() => {
@@ -49,14 +52,12 @@
 
         })()
     </script>
-    @include('layouts.errorhandler')
-    @include('admin.core.editor')
-
 </body>
 <div id="preloader" style="display:none;">
     <div class="loading">
         <span>Loading...</span>
     </div>
+</div>
 
 </html>
 @stack('scripts')

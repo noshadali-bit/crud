@@ -7,39 +7,57 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-
-    <!-- Fonts -->
-    <link rel="dns-prefetch" href="//fonts.bunny.net">
-    <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
+    <title>{{ isset($title) ? $title : '' }}</title>
+    <link rel="icon" type="image/jpg" href="{{ asset(isset($logo) ? $logo->img_path : '') }}">
+    @include('Admin.layout.links')
+    @yield('css')
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
-    <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-            <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav me-auto">
-
-                    </ul>
-
-                </div>
-            </div>
-        </nav>
-
-        <main class="py-4">
-            @yield('content')
-        </main>
+    <input type="hidden" id="web_base_url" value="{{ url('/') }}" />
+    <div id="admin-app">
+        @include('Admin.layout.header')
+        @include('Admin.layout.sidebar')
+        @yield('content')
+        @include('Admin.layout.footer')
     </div>
+    @include('Admin.layout.scripts')
+    @yield('js')
+    <script type="text/javascript">
+        (() => {
+
+            @if (session('notify_success'))
+                $.toast({
+                    heading: 'Success!',
+                    position: 'bottom-right',
+                    text: '{{ session('notify_success') }}',
+                    loaderBg: '#ff6849',
+                    icon: 'success',
+                    hideAfter: 2000,
+                    stack: 6
+                });
+            @elseif (session('notify_error'))
+                $.toast({
+                    heading: 'Error!',
+                    position: 'bottom-right',
+                    // 	text:  'Error',
+                    text: '{{ session('notify_error') }}',
+                    loaderBg: '#ff6849',
+                    icon: 'error',
+                    hideAfter: 10000,
+                    stack: 6
+                });
+            @endif
+
+        })()
+    </script>
 </body>
+<div id="preloader" style="display:none;">
+    <div class="loading">
+        <span>Loading...</span>
+    </div>
+</div>
+
 </html>
+@stack('scripts')

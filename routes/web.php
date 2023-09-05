@@ -4,7 +4,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\IndexController;
-use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AdminLoginController;
 use App\Http\Controllers\sharkController;
@@ -16,28 +15,25 @@ use Illuminate\Support\Facades\Auth;
 Auth::routes();
 
 Route::get('/', [IndexController::class, 'index'])->name('home');
-Route::get('/test', [IndexController::class, 'test'])->name('test');
 
-Route::get('home', [HomeController::class, 'index'])->name('home');
-Route::get('/all-user', [HomeController::class, 'all_user'])->name('all-user');
+Route::get('/all-user', [IndexController::class, 'all_user'])->name('all-user');
 
 /********************  User Role 1 Routes ********************/ 
 Route::middleware(['auth', 'role:1'])->group(function () {
-    Route::get('/add-user', [DashboardController::class, 'add_user'])->name('add-user');
-    Route::post('/create-user', [DashboardController::class, 'create_user'])->name('create-user');
-
-    Route::get('/edit-user/{id}', [DashboardController::class, 'edit_user'])->name('edit-user');
-    Route::get('/delete-user/{id}', [DashboardController::class, 'delete_user'])->name('delete-user');
-    Route::post('/update-user', [DashboardController::class, 'update_user'])->name('update-user');
+    Route::get('/add-user', [HomeController::class, 'add_user'])->name('add-user');
+    Route::post('/create-user', [HomeController::class, 'create_user'])->name('create-user');
+    Route::get('/edit-user/{id}', [HomeController::class, 'edit_user'])->name('edit-user');
+    Route::get('/delete-user/{id}', [HomeController::class, 'delete_user'])->name('delete-user');
+    Route::post('/update-user', [HomeController::class, 'update_user'])->name('update-user');
 });
 
 /********************  User Role 2, 3 Routes ********************/ 
 Route::middleware(['auth', 'role:2', 'role:3'])->group(function () {
-    Route::get('/admin', [HomeController::class, 'index']);
+    // Route::get('/admin', [HomeController::class, 'index']);
 });
 
-/********************  Admins Routes ********************/ 
 
+/********************  Admins Routes ********************/ 
 Route::get('/admins', function () {
     return redirect('admin/login');
 })->name('admin.admin');
@@ -56,7 +52,6 @@ Route::middleware(['admin'])->prefix('admin')->namespace('admin')->group(functio
     /****************  Adin Logout  *********************/    
     Route::get('admin/logout', [AdminController::class, 'admin_logout'])->name('admin.logout');
 
-
     /*FRONT END EDITOR*/
     Route::post('/statusAjaxUpdateCustom', [sharkController::class,'statusAjaxUpdateCustom']);
     Route::post('/statusAjaxUpdate', [sharkController::class,'statusAjaxUpdate']);
@@ -71,7 +66,7 @@ Route::middleware(['admin'])->prefix('admin')->namespace('admin')->group(functio
 
 /********************  Create Admin  ********************/ 
 /*
-Route::get('/add-admin', [DashboardController::class, 'add_admin'])->name('add-admin');
-Route::post('/create-admin', [DashboardController::class, 'create_admin'])->name('create-admin');
+Route::get('/add-admin', [HomeController::class, 'add_admin'])->name('add-admin');
+Route::post('/create-admin', [HomeController::class, 'create_admin'])->name('create-admin');
 */
 /********************  Create Admin  ********************/

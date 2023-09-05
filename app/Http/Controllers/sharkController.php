@@ -14,62 +14,6 @@ use Illuminate\Http\Request;
 
 class sharkController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
     public function statusAjaxUpdateCustom(){
         if(count($_POST)>0){
             $updaters = '';
@@ -131,14 +75,12 @@ class sharkController extends Controller
         }
         if($request->has('file')){
             if(count($data)>3){
-                //$imageSavefooter = $this->imageUpload($_FILES,'file',$data[2],$data[1],1,true,$data[3],$data[4],1,true);
                 $imageSavefooter='';
             } else {
                 $imagetable=Imagetable::where('table_name',$data[0])->first();
                 if($imagetable){
                     $imageid=$imagetable->id;
                     try {
-                        //dd($imageid);
                         $imagetable=Imagetable::where('table_name',$data[0])->delete();
                         app("App\Http\Controllers\CoreDeletesController")->deleteResizedImage($imageid);
                     }catch(\Exception $ex){
