@@ -10,10 +10,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="banner-con">
-                    <?php App\Helpers\Helper::inlineEditable('p', ['class' => ''], 'Thank you for joining hands with us as we share the Good News with the lost Banjara people in the remote villages of India.', 'WELCOMETXT11'); ?>z
+                    <?php App\Helpers\Helper::inlineEditable('h2', ['class' => ''], 'Thank you for joining ', 'WELCOMETXT11'); ?>z
                     <div class="banner-btn">
-                        <a class="btn btn-1" href="javascript:void(0)">donate now </a>
-                        <a class="btn btn-1" href="javascript:void(0)">contact Us </a>
+                    <?php App\Helpers\Helper::inlineEditable('p', ['class' => ''], 'Thank you for joining hands with us as we share the Good News with the lost Banjara people in the remote villages of India.', 'WELCOMETXT12'); ?>z
+                        <div class="banner-btn">
                     </div>
                 </div>
             </div>
